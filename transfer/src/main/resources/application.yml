@@ -1,0 +1,39 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8762
+spring:
+  application:
+    name: transfer
+  datasource:
+    url: jdbc:mysql://localhost:3306/springdemo?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+rocketmq:
+  #mq的nameserver地址
+  namesrvAddr: 192.168.1.60:9876
+  producer:
+    # 发送同一类消息的设置为同一个group，保证唯一,默认不需要设置，rocketmq会使用ip@pid(pid代表jvm名字)作为唯一标示
+    groupName: vehicleProducerGroup
+    #如果需要同一个jvm中不同的producer往不同的mq集群发送消息，需要设置不同的instanceName
+    instanceName: vehicleProducer
+    #topic名称
+    topic: TEST
+    #根据实际情况设置消息的tag
+    tag: TEST
+    #消息最大长度
+    maxMessageSize: 131072 # 1024*128
+    #发送消息超时时间
+    sendMsgTimeout: 10000
+  consumer:
+    groupName: vehicleProducerGroup
+    topic: TopicTest
+    tag: test_tag
+    consumeThreadMin: 20
+    consumeThreadMax: 64
