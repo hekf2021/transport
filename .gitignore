@@ -1,0 +1,11 @@
+/.idea
+/config/*.iml
+/eureka/*.iml
+/socket/*.iml
+/transfer/*.iml
+/zuul/*.iml
+/socket/target
+/eureka/target
+/config/target
+/transfer/target
+/zuul/target
