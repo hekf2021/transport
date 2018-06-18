@@ -1,5 +1,9 @@
 package com.xiaoka.socket.Processor;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.xiaoka.socket.constant.Constants;
 import com.xiaoka.socket.mq.MqConsumer;
 import com.xiaoka.socket.mq.MqProducer;
@@ -18,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 public class ServerProcessor implements MessageProcessor<String> {
 
     private MqProducer mqProducer;
+    JsonParser parser = new JsonParser();
 
     public ServerProcessor(MqProducer mqProducer){
         this.mqProducer=mqProducer;
@@ -25,11 +30,30 @@ public class ServerProcessor implements MessageProcessor<String> {
 
     @Override
     public void process(AioSession<String> session, String msg) {
+        System.out.println("服务端收到："+msg);
+        String accountId;
+        String moduleName;
+        String isServerDriver;
         try {
-            System.out.println("服务端收到："+msg);
+            JsonElement jsonElement = parser.parse(msg);
+            JsonObject jsonObject =jsonElement.getAsJsonObject();
+            JsonPrimitive accountJson =jsonObject.getAsJsonPrimitive(Constants.TCP_MESSAGE.ACCOUNT_ID);
+            accountId = accountJson.getAsString();
+            JsonPrimitive moduleJson =jsonObject.getAsJsonPrimitive(Constants.TCP_MESSAGE.MODULE_NAME);
+            moduleName = moduleJson.getAsString();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            try {
+                session.write("JSON格式不正确:"+msg);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
             Message message = new Message("tos_transfer", "test_tag", (msg).getBytes(RemotingHelper.DEFAULT_CHARSET));
             DefaultMQProducer producer = mqProducer.getMqProducer(Constants.TRANSFER);
-
             producer.send(message, new SendCallback() {
                 public void onSuccess(SendResult sendResult) {
                     System.out.println(String.format("message [%s] send success!", new String(message.getBody())));
