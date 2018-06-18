@@ -7,13 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class MqProducer {
-    private String host="192.168.1.60";
-    private int port=9876;
+    private static String namesrvAddr;
     private static ConcurrentMap<String,DefaultMQProducer> mqProducersMap=new ConcurrentHashMap<String,DefaultMQProducer>();
 
-    public MqProducer(String host,int port){
-        this.host=host;
-        this.port=port;
+    public MqProducer(String namesrvAddr){
+        this.namesrvAddr=namesrvAddr;
     }
 
     public void createProducer(){
@@ -21,7 +19,7 @@ public class MqProducer {
             // 设置生产者组名
             DefaultMQProducer producer = new DefaultMQProducer(Constants.TRANSFER);
             // 指定nameServer的地址
-            producer.setNamesrvAddr(host+":"+port);
+            producer.setNamesrvAddr(namesrvAddr);
             producer.setRetryAnotherBrokerWhenNotStoreOK(true);
             // 启动实例
             producer.start();

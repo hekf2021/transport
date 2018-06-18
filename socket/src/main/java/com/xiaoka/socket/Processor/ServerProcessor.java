@@ -1,6 +1,7 @@
 package com.xiaoka.socket.Processor;
 
 import com.xiaoka.socket.constant.Constants;
+import com.xiaoka.socket.mq.MqConsumer;
 import com.xiaoka.socket.mq.MqProducer;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendCallback;
@@ -26,7 +27,7 @@ public class ServerProcessor implements MessageProcessor<String> {
     public void process(AioSession<String> session, String msg) {
         try {
             System.out.println("服务端收到："+msg);
-            Message message = new Message("TopicTest", "test_tag", (msg).getBytes(RemotingHelper.DEFAULT_CHARSET));
+            Message message = new Message("tos_transfer", "test_tag", (msg).getBytes(RemotingHelper.DEFAULT_CHARSET));
             DefaultMQProducer producer = mqProducer.getMqProducer(Constants.TRANSFER);
 
             producer.send(message, new SendCallback() {
@@ -42,6 +43,7 @@ public class ServerProcessor implements MessageProcessor<String> {
                     }
                 }
             });
+            MqConsumer.setClientSession("123",session);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -31,6 +31,8 @@ public class RocketMQConsumerConfiguration {
     private int consumeThreadMin;
     @Value("${rocketmq.consumer.consumeThreadMax}")
     private int consumeThreadMax;
+    @Value("${rocketmq.consumer.consumeBatchSize}")
+    private int consumeBatchSize;
 
     @Autowired
     @Qualifier("messageProcessorImpl")
@@ -54,6 +56,7 @@ public class RocketMQConsumerConfiguration {
         consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
+        consumer.setConsumeMessageBatchMaxSize(consumeBatchSize);
         MessageListener messageListener = new MessageListener();
         messageListener.setMessageProcessor(messageProcessor);
         consumer.registerMessageListener(messageListener);

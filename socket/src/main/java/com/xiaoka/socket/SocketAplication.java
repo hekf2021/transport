@@ -1,6 +1,7 @@
 package com.xiaoka.socket;
 
 import com.xiaoka.socket.Processor.ServerProcessor;
+import com.xiaoka.socket.mq.MqConsumer;
 import com.xiaoka.socket.mq.MqProducer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -16,15 +17,17 @@ public class SocketAplication {
     public static int bufferSize=20480;
     public static int queueSize=10;
 
-    private static String mqHost="192.168.1.60";
-    private static int mqPort=9876;
+    private static String namesrvAddr="192.168.1.60:9876";
 
     public static MqProducer mqProducer;
+    public static MqConsumer mqConsumer;
 
     public static void main(String[] args){
         try {
-            mqProducer = new MqProducer(mqHost,mqPort);
+            mqProducer = new MqProducer(namesrvAddr);
             mqProducer.createProducer();
+            mqConsumer = new MqConsumer(namesrvAddr);
+            mqConsumer.createConsumer();
             AioQuickServer<String> server = new AioQuickServer<String>(port, new SocketProtocol(), new ServerProcessor(mqProducer));
             server.setBannerEnabled(true);
             server.setReadBufferSize(bufferSize);
