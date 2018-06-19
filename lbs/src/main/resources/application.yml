@@ -1,0 +1,18 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8763
+spring:
+  application:
+    name: lbs
+  redis:
+    hostName: 10.150.7.208
+    port: 6379
+    password:
+    pool.maxActive: 8
+    pool.maxWait: -1
+    pool.maxIdle: 8
+    pool.minIdle: 0
+    timeout: 0
