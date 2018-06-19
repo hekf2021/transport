@@ -22,7 +22,7 @@ public class Constants {
         public final static String THREAD_NUM="tcp.server.thread.num";//线程数
         public final static String BUFFER_SIZE="tcp.server.buffer.size";//缓存大小
         public final static String QUEUE_SIZE="tcp.server.queue.size";//排队队列大数
-        public final static String NAMESRV_ADDR="tcp.server.namesrv.addr";//mq地址
+        public final static String NAMESRV_ADDR="mq.namesrv.addr";//mq地址
     }
 
 

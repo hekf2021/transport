@@ -34,22 +34,22 @@ public class ServerProcessor implements MessageProcessor<String> {
         String accountId;
         String moduleName;
         String isServerDriver;
-        try {
-            JsonElement jsonElement = parser.parse(msg);
-            JsonObject jsonObject =jsonElement.getAsJsonObject();
-            JsonPrimitive accountJson =jsonObject.getAsJsonPrimitive(Constants.TCP_MESSAGE.ACCOUNT_ID);
-            accountId = accountJson.getAsString();
-            JsonPrimitive moduleJson =jsonObject.getAsJsonPrimitive(Constants.TCP_MESSAGE.MODULE_NAME);
-            moduleName = moduleJson.getAsString();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            try {
-                session.write("JSON格式不正确:"+msg);
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        try {
+//            JsonElement jsonElement = parser.parse(msg);
+//            JsonObject jsonObject =jsonElement.getAsJsonObject();
+//            JsonPrimitive accountJson =jsonObject.getAsJsonPrimitive(Constants.TCP_MESSAGE.ACCOUNT_ID);
+//            accountId = accountJson.getAsString();
+//            JsonPrimitive moduleJson =jsonObject.getAsJsonPrimitive(Constants.TCP_MESSAGE.MODULE_NAME);
+//            moduleName = moduleJson.getAsString();
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//            try {
+//                session.write("JSON格式不正确:"+msg);
+//                return;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         try {
             Message message = new Message("tos_transfer", "test_tag", (msg).getBytes(RemotingHelper.DEFAULT_CHARSET));
