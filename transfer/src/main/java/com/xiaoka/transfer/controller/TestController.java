@@ -2,6 +2,7 @@ package com.xiaoka.transfer.controller;
 
 import com.xiaoka.transfer.model.User;
 import com.xiaoka.transfer.service.TestService;
+import io.swagger.annotations.*;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendCallback;
@@ -12,10 +13,12 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/test")
+@Api(value = "测试")
 public class TestController {
 
     @Autowired
@@ -23,14 +26,16 @@ public class TestController {
     @Autowired
     private DefaultMQProducer producer;
 
-    @RequestMapping("/tt")
+    @RequestMapping(value="/tt",method = RequestMethod.GET)
     public User getReports() {
         System.out.println("11111111111111111");
         return testService.findUser(1);
     }
 
-    @RequestMapping("/gg")
-    public String gg(String t) {
+    @RequestMapping(value="/gg",method = RequestMethod.GET)
+    @ApiOperation(value = "向客户端app发送消息")
+    @ApiResponses({@ApiResponse(code=500,message="INTERNAL_SERVER_ERROR")})
+    public String gg(@ApiParam(value = "消息",required = true) @RequestParam(value = "t",required = true) String t) {
         try {
             System.out.println("t=="+t);
             Message message = new Message("toc_transfer", "test_tag", (t).getBytes(RemotingHelper.DEFAULT_CHARSET));
