@@ -1,5 +1,7 @@
 package com.xiaoka.lbs.conf;
 
+import com.kiaoka.common.redis.service.RedisTemplateService;
+import com.kiaoka.common.redis.service.impl.RedisTemplateServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -37,5 +39,11 @@ public class RedisConfig {
     public RedisTemplate<?, ?> getRedisTemplate(){
         RedisTemplate<?,?> redisTemplate = new StringRedisTemplate(getConnectionFactory());
         return redisTemplate;
-    }  
+    }
+
+    @Bean
+    public RedisTemplateService getRedisTemplateService(){
+        RedisTemplateService redisTemplateService = new RedisTemplateServiceImpl();
+        return redisTemplateService;
+    }
 }  

@@ -10,7 +10,7 @@ spring:
   redis:
     hostName: 10.150.7.208
     port: 6379
-    password:
+    password: test123
     pool.maxActive: 8
     pool.maxWait: -1
     pool.maxIdle: 8
@@ -39,3 +39,4 @@ rocketmq:
     consumeThreadMin: 20
     consumeThreadMax: 64
     consumeBatchSize: 100
+
