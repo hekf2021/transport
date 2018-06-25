@@ -1,5 +1,6 @@
 package com.xiaoka.transfer.controller;
 
+import com.kiaoka.common.exception.XiaokaException;
 import com.xiaoka.transfer.model.User;
 import com.xiaoka.transfer.service.TestService;
 import io.swagger.annotations.*;
@@ -53,4 +54,12 @@ public class TestController {
         return "OK";
     }
 
+    @RequestMapping(value="/cc",method = RequestMethod.GET)
+    public String cc() {
+        System.out.println("11111111111111111");
+        if(1==1){
+            throw new XiaokaException(400,"aaa","test");
+        }
+        return "OK";
+    }
 }

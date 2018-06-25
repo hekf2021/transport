@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
  * 创建于 2017年11月8日上午10:47:56
  * //TODO redis工具接口实现类
  */
-@Service("redisTemplateService")
 public class RedisTemplateServiceImpl implements RedisTemplateService {
 
     @Autowired

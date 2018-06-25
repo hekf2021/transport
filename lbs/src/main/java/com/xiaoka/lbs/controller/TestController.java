@@ -32,6 +32,7 @@ public class TestController {
         System.out.println("key=="+key+"  value="+value);
         System.out.println("testService="+testService);
         testService.test(key,value);
+        System.out.println("abcd"+testService.getkey());
         return "OK";
     }
 }
